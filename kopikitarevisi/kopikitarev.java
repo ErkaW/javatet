@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-
+TODO #1 : Membuat menu-menu Aplikasi
+TODO #2 : Merapikan code
+TODO #3 : Merapikan tampilan aplikasi
+TODO #4 : Menambahkan fitur-fitur
+TODO #5 : Merapikan kata-kata yang ada di aplikasi
 
 public class kopikitarev {
     // Deklarasi variabel
