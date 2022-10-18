@@ -1,0 +1,11 @@
+==========================================
+Terima kasih telah berbelanja di KopiKita
+==========================================
+Tanggal : 2022-10-18	Waktu : 20:30:3
+==========================================
+ID	Nama Kopi	Harga	Jumlah	Total
+==========================================
+1	Americano	13000	4	52000
+2	Black Coffee	13000	4	52000
+Total harga yang harus dibayar adalah 104000
+Kembalian anda adalah 22118222

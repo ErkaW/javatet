@@ -1,0 +1,279 @@
+package kopikita;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+public class KopiKita{
+    static int[] idterpilih = new int[100];
+    static int[] jumlahterpilih = new int[100];
+    static int[] total = new int[10];
+    static int[] id = {1,2,3,4,5,6,7,8,9,10};
+    static String[] namaKopi = {
+        "Americano",
+        "Black Coffee",
+        "Original Coffee",
+        "Maqiato\t",
+        "Coco Maqiato",
+        "Vanilla Latte",
+        "Hazelnut Latte",
+        "Coffee Latte",
+        "Capuccino",
+        "Kopi Tubruk"
+    };
+    static int[] harga = {
+        13000,
+        13000,
+        13000,
+        13000,
+        13000,
+        15000,
+        15000,
+        13000,
+        13000,
+        6000
+    };
+    static int totalharga;
+    static int idpilihan = 0;
+    static int jumlah = 0;
+    static int bayar = 0;
+    static int kembalian = 0;
+    static String tanggal = "";
+    static int jam;
+    static int menit;
+    static int detik;
+    
+    private static void menuawal(){
+        System.out.println("===================================");
+        System.out.println("Selamat Datang di KopiKita");
+        System.out.println("===================================");
+        System.out.println("1. Pesan Kopi");
+        System.out.println("2. Lihat Pesanan");
+        System.out.println("3. Keluar");
+        System.out.println("===================================");
+        System.out.print("Pilihan Anda : ");
+    }
+    private static void lihatPesanan(){
+        System.out.println("===================================");
+        System.out.println("Pesanan Anda");
+        System.out.println("===================================");
+        System.out.println("No\tNama Kopi\tJumlah\tHarga");
+        for(int i = 0; i < idpilihan; i++){
+            System.out.println((i+1)+"\t"+namaKopi[idterpilih[i]-1]+"\t\t"+jumlahterpilih[i]+"\t"+(harga[idterpilih[i]-1]*jumlahterpilih[i]));
+        }
+        System.out.println("===================================");
+        System.out.println("Total Harga : "+totalharga);
+        System.out.println("===================================");
+        System.out.println("1. Bayar");
+        System.out.println("2. Kembali");
+        System.out.println("===================================");
+        System.out.print("Pilihan Anda : ");
+    }
+    private static void editpilihan(int idpilihan, int jumlah){
+        int i = 0;
+        while(idterpilih[i] != 0){
+            if(idterpilih[i] == idpilihan){
+                jumlahterpilih[i] += jumlah;
+                return;
+            }
+            i++;
+        }
+        idterpilih[i] = idpilihan;
+        jumlahterpilih[i] = jumlah;
+    }
+    private static void hapuspilihan(int idpilihan){
+        int i = 0;
+        while(idterpilih[i] != 0){
+            if(idterpilih[i] == idpilihan){
+                idterpilih[i] = 0;
+                jumlahterpilih[i] = 0;
+                return;
+            }
+            i++;
+        }
+    }
+    private static void belikopilagi(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Apakah anda ingin membeli kopi lagi? (y/n)");
+        String pilihan = input.next();
+        if(pilihan.equals("y")){
+            menu();
+        }else if(pilihan.equals("n")){
+            System.out.println("Terima kasih telah berbelanja di KopiKita");
+            System.exit(0);
+        }else{
+            System.out.println("Inputan salah");
+            belikopilagi();
+        }
+    }
+    private static void pause(){
+        try{
+            Thread.sleep(1000);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    private static void menuyangdipilih(){
+        System.out.println("ID\tNama Kopi\tHarga");
+        for(int i = 0; i < idpilihan; i++){
+            System.out.println(idterpilih[i]+"\t"+namaKopi[idterpilih[i]-1]+"\t"+harga[idterpilih[i]-1]);
+        }
+        pause();
+    }
+    private static void clearScreen(String[] args) {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    private static void systemdate(String[] args) {
+        tanggal = java.time.LocalDate.now().toString();
+    }
+    private static void systemtime(String[] args) {
+        jam = java.time.LocalTime.now().getHour();
+        menit = java.time.LocalTime.now().getMinute();
+        detik = java.time.LocalTime.now().getSecond();
+    }
+    private static void headerBeli(){
+        System.out.printf("===================================\n"
+                + "Selamat Datang di KopiKita\n"
+                + "===================================\n");
+        System.out.println("Silahkan memilih pesanan anda :)\n");
+        System.out.println("ID\tNama Kopi\t\tHarga");
+        System.out.println("==========================================");
+        for(int i=0;i<10;i++){
+            System.out.println(id[i]+"\t"+namaKopi[i]+"\t\t"+harga[i]);
+    }
+    public static void beli(){
+        System.out.println("==========================================");
+        System.out.print("Masukkan ID Kopi : ");
+        Scanner input = new Scanner(System.in);
+        idpilihan = input.nextInt();
+        while(idpilihan<1 || idpilihan>10){
+            System.out.println("ID tidak ditemukan");
+            System.out.print("Masukkan ID Kopi : ");
+            idpilihan = input.nextInt()
+            ;
+        }
+        System.out.print("Masukkan Jumlah Pesanan : ");
+        Scanner input2 = new Scanner(System.in);
+        jumlah = input2.nextInt();
+        while(jumlah<1){
+            System.out.println("Jumlah pesanan tidak boleh kurang dari 1");
+            System.out.print("Masukkan Jumlah Pesanan : ");
+            jumlah = input2.nextInt();
+        }
+        switch(idpilihan){
+            case 1:
+                System.out.println("Pesanan anda adalah "+namaKopi[0]+" sebanyak "+jumlah+" dengan harga "+harga[0]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 2:
+                System.out.println("Pesanan anda adalah "+namaKopi[1]+" sebanyak "+jumlah+" dengan harga "+harga[1]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 3:
+                System.out.println("Pesanan anda adalah "+namaKopi[2]+" sebanyak "+jumlah+" dengan harga "+harga[2]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 4:
+                System.out.println("Pesanan anda adalah "+namaKopi[3]+" sebanyak "+jumlah+" dengan harga "+harga[3]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 5:
+                System.out.println("Pesanan anda adalah "+namaKopi[4]+" sebanyak "+jumlah+" dengan harga "+harga[4]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 6:
+                System.out.println("Pesanan anda adalah "+namaKopi[5]+" sebanyak "+jumlah+" dengan harga "+harga[5]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 7:
+                System.out.println("Pesanan anda adalah "+namaKopi[6]+" sebanyak "+jumlah+" dengan harga "+harga[6]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 8:
+                System.out.println("Pesanan anda adalah "+namaKopi[7]+" sebanyak "+jumlah+" dengan harga "+harga[7]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 9:
+                System.out.println("Pesanan anda adalah "+namaKopi[8]+" sebanyak "+jumlah+" dengan harga "+harga[8]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            case 10:
+                System.out.println("Pesanan anda adalah "+namaKopi[9]+" sebanyak "+jumlah+" dengan harga "+harga[9]*jumlah);
+                idterpilih[idpilihan-1] = idpilihan;
+                jumlahterpilih[idpilihan-1] = jumlah;
+                break;
+            default:
+                break;
+        }
+        String lagi;
+        menuyangdipilih();
+        pesanlagi();
+    }
+    public static void bayar(){
+        System.out.println("==========================================");
+        System.out.println("Total harga yang harus dibayar adalah "+totalharga);
+        Scanner input = new Scanner(System.in);
+        System.out.print("Masukkan uang anda : ");
+        bayar = input.nextInt();
+        while(bayar<totalharga){
+            System.out.println("Uang anda kurang");
+            bayar = 0;
+            bayar();
+        }
+        kembalian = bayar - totalharga;
+        System.out.println("Kembalian anda adalah "+kembalian);
+    }
+    public static void printtotxt(){
+        try{
+            FileWriter fw = new FileWriter("Kasir.txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("==========================================");
+            bw.newLine();
+            bw.write("Terima kasih telah berbelanja di KopiKita");
+            bw.newLine();
+            bw.write("==========================================");
+            bw.newLine();
+            bw.write("Tanggal : "+tanggal+"\t");
+            bw.write("Waktu : "+jam+":"+menit+":"+detik);
+            bw.newLine();
+            bw.write("==========================================");
+            bw.newLine();
+            bw.write("ID\tNama Kopi\tHarga\tJumlah\tTotal");
+            bw.newLine();
+            bw.write("==========================================");
+            bw.newLine();
+            for(int i=0;i<10;i++){
+                if(total[i]!=0){
+                    bw.write((i+1)+"\t"+namaKopi[i]+"\t"+harga[i]+"\t"+jumlah+"\t"+total[i]);
+                    bw.newLine();
+                }
+            }
+            bw.write("Total harga yang harus dibayar adalah "+totalharga);
+            bw.newLine();
+            bw.write("Kembalian anda adalah "+kembalian);
+            bw.close();
+        }catch(IOException e){
+            System.out.println("Error");
+        }
+    }
+
+    public static void main(String[] args) {
+        clearScreen(args);
+        headerBeli();
+        beli();
+        bayar();
+        systemdate(args);
+        systemtime(args);
+        printtotxt();
+        
+    }
+} 
